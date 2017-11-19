@@ -1,0 +1,26 @@
+html, body{
+    height: 100%;
+}
+
+body{
+    color: #bfbfbf;
+    background: black;
+    font-family: 'Open Sans', sans-serif ;
+}
+
+h1{
+    color: white;
+}
+
+#global{
+    min-height: 100%;
+    background: #333534;
+    width: 70%;
+    margin: auto;
+    text-align: justify;
+    padding: 5px 20px;
+}
+
+#titreAppli, #footAppli{
+    text-align: center;
+}
