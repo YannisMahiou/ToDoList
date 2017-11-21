@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Config;
 
 /**
  * App Autoloader
@@ -9,12 +9,11 @@ namespace App;
 class Autoloader
 {
     static function autoload($class_name){
-        require 'App/' . $class_name . '.php';
+        require 'Model/' . $class_name . '.php';
     }
 
     static function register(){
         spl_autoload_register(array(__CLASS__,'autoload'));
     }
-
 
 }

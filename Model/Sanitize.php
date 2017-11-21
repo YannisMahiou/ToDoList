@@ -1,5 +1,7 @@
 <?php
 
+namespace Model;
+
 class Sanitize
 {
   //Sanitize des strings

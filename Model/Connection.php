@@ -1,8 +1,10 @@
 <?php
 
+namespace Model;
+
 //This class aims to connect to a DB
 //No prints, no errors caught here
-class Connection extends PDO
+class Connection extends \PDO
 {
     private $stmt;
 
@@ -25,7 +27,7 @@ class Connection extends PDO
     }
 
     public function getResults(){
-        return $this->stmt->fetchAll();
+        return $this->stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
 }

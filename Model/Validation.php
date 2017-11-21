@@ -1,5 +1,7 @@
 <?php
 
+namespace Model;
+
 /**
  * App Validation
  * Aims to validate the user's informations

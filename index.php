@@ -1,14 +1,9 @@
 <?php
 
 // Autoload the classes in App directory
-require 'App/Autoloader.php';
-\App\Autoloader::register();
+require 'Config/Autoloader.php';
+\Config\Autoloader::register();
 
-
-
-$dsn='mysql:host=localhost;dbname=app;charset=utf8';
-$login='root';
-$password='';
 
 $title='tâche 2';
 $content='Content de la tache 2 !!';
