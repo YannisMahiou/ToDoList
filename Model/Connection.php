@@ -3,7 +3,7 @@
 namespace Model;
 
 //This class aims to connect to a DB
-//No prints, no errors caught here
+//No prints & no errors caught here
 class Connection extends \PDO
 {
     private $stmt;
@@ -28,6 +28,10 @@ class Connection extends \PDO
 
     public function getResults(){
         return $this->stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public function lastInsertId(){
+        return lastInsertId();
     }
 
 }
