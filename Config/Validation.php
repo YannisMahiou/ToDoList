@@ -1,6 +1,6 @@
 <?php
 
-namespace Model;
+namespace Config;
 
 /**
  * App Validation
@@ -8,7 +8,7 @@ namespace Model;
  */
 class Validation
 {
-    public function areSet($args=array()){
+    public static function areSet($args=array(), array &$dErrorView){
         $res=true;
         foreach ($args as $line)
             $res&=isset($line);
@@ -17,7 +17,7 @@ class Validation
 
     //verify if the email is valid
     //return true if it's valid, false in other cases
-    public function isCorrectMail($mail){
+    public static function isCorrectMail($mail, array &$dVueEreur){
         if(!filter_var($mail, FILTER_VALIDATE_EMAIL))
             return false;
         return true;
@@ -25,7 +25,7 @@ class Validation
 
     //verify if the arguments match to the regexp
     //returns true if it matches the regexp, false in other cases
-    public function matchToRegexp($login, $password){
+    public static function matchToRegexp($login, $password, array &$dVueEreur){
         $regexplog="/^[[:alnum:]]+$/";
         $regexppsw="/^([[:alnum:]]*[&#\-_\+=]*)*$/";
         $options = array('options' => array('regexp' => $regexplog));
@@ -40,7 +40,7 @@ class Validation
 
     //verify the length of the arguments
     //returns true if corrects lengths, false in other cases
-    public function hasCorrectLength($login, $password)
+    public static function hasCorrectLength($login, $password, array &$dVueEreur)
     {
         if (strlen($login) < 1 || strlen($login) > 8) {
             $error[] = "Error : Login is whether too short or too long !";

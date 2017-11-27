@@ -3,9 +3,16 @@
 // Autoload the classes from the Model
 require_once 'Config/Autoloader.php';
 require_once 'Config/Config.php';
-\Config\Autoloader::register();
+\Config\Autoloader::autoLoad();
 
 
+
+
+
+
+
+
+/*
 $title='MDRMDR';
 $content='Content de la tache MDRMDR !!';
 $date= new DateTime();
@@ -21,4 +28,4 @@ $con->executeQuery($query,array(
   ':title' => array($title,PDO::PARAM_STR),
   ':content' => array($content,PDO::PARAM_STR),
   ':date' => array($date_format,PDO::PARAM_STR)
-));
+));*/

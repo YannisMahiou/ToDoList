@@ -1,6 +1,6 @@
 <?php
 
-namespace Model;
+namespace Metier;
 
 class Sanitize
 {
@@ -10,8 +10,7 @@ class Sanitize
       return $login;
   }
 
-  public function passwordSanitize($password)
-  {
+  public function passwordSanitize($password){
       $password = filter_var($password,FILTER_SANITIZE_STRING);
       return $password;
   }
@@ -22,7 +21,6 @@ class Sanitize
   }
 
 
-  //Sanitize de l'emai
   //Sanitize des nombres (âge ?...)
   //
 }

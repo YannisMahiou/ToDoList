@@ -1,6 +1,6 @@
 <?php
 
-namespace Model;
+namespace Metier;
 
 //This class aims to connect to a DB
 //No prints & no errors caught here

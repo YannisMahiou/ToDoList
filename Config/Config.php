@@ -13,5 +13,6 @@ $password='';
 
 //Views
 
-
-
+$View['error']='View/errorView.php';
+$View['vueAcceuil']='View/vueAcceuil.php';
+//$View['']

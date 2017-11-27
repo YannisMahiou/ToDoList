@@ -8,12 +8,39 @@ namespace Config;
  */
 class Autoloader
 {
-    static function autoload($class_name){
-        require 'Model/' . $class_name . '.php';
+    private static $_instance = null;
+
+
+    public static function autoLoad(){
+        if(null !== self::$_instance)
+            throw new RuntimeException(sprintf('%s is already started', __CLASS__));
+        self::$_instance = new self();
+        if(!spl_autoload_register(array(self::$_instance, '_autoload'), false))
+            throw new RuntimeException(sprintf('%s : Could not start the autoload', __CLASS__));
     }
 
-    static function register(){
-        spl_autoload_register(array(__CLASS__,'autoload'));
+
+    public static function Shutdown(){
+        if(null !== self::$_instance) {
+            if(!spl_autoload_unregister(array(self::$_instance, '_autoload')))
+                throw new RuntimeException('Could not stop the autoload');
+            self::$_instance = null;
+        }
     }
+
+
+    private static function _autoload($class){
+        global $rep;
+        $filename = $class.'.php';
+        $dir =array('Model/','./','Config/','Controllers/', 'DAL/');
+        foreach ($dir as $d){
+            $file=$rep.$d.$filename;
+            if (file_exists($file))
+                include $file;
+        }
+
+    }
+
+
 
 }
