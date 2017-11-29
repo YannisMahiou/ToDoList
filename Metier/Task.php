@@ -7,13 +7,26 @@ class Task
     private $id_task;
     private $title;
     private $content;
-    private $date
+    private $date;
+    private $id_list;
 
-    public function __construct($id_task, $title, $content, $date){
-        $this->id_tache = $id_task;
+    public function __construct($id_task, $title, $content, $date, $id_list){
+        $this->id_task = $id_task;
         $this->title = $title;
         $this->content = $content;
         $this->date = $date;
+        $this->id_list = $id_list;
+    }
+
+
+    public function getIdList()
+    {
+        return $this->id_list;
+    }
+
+    public function setIdList($id_list)
+    {
+        $this->id_list = $id_list;
     }
 
     public function getId(){
@@ -58,6 +71,6 @@ class Task
     }
 
     public function __toString(){
-        return $this->id_tache . ' ' . $this->title . ' ' . $this->date . ' ' . $this->content;
+        return $this->id_task . ' ' . $this->title . ' ' . $this->date . ' ' . $this->content;
     }
 }
