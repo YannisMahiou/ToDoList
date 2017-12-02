@@ -2,18 +2,48 @@
 
 namespace Controllers;
 
+use Model\UserModel;
+
 public class FrontController
 {
 
     function __construct()
     {
-        global $rep, $vues;
+        global $rep, $view;
 
-        $actionUser = array("disconnect", "addList", "removeList"); //"privateList");
+        $actionUser = array("disconnect", "addList", "removeList");
         $actionVisitor = array("connect", "register", "consultList", "addTask", "deleteTask", "completTask");
 
+        $user = new UserModel();
 
-    }
+        try{
+
+            if(!$user.isUser())
+                exit(1);
+            $action = $_GET('action');
+            foreach($actionUser as $act) {
+                if ($action == $act){
+                    if ($user == NULL){
+                        require($rep . $view['register']);
+                    else
+                        $user = new UserController();
+                    }
+                }
+                else{
+
+
+                }
+
+            }
+
+
+
+
+
+
+
+
+        }
 }
 
 /*

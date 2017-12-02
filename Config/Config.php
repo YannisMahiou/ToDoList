@@ -13,8 +13,9 @@ $password='';
 
 //Views
 
-$View['error']='View/errorView.php';
-$views['register']='views/register.php';
-$View['home']='View/home.php';
-$views['404']='views/404.php';
+$view['error']='View/errorView.php';
+$view['register']='views/register.php';
+$view['home']='View/home.php';
+$view['404']='views/404.php';
+
 

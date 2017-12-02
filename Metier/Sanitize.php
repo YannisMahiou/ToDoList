@@ -5,22 +5,28 @@ namespace Metier;
 class Sanitize
 {
   //Sanitize des strings
-  public function loginSanitize($login){
+  public static function loginSanitize($login){
       $login = filter_var($login,FILTER_SANITIZE_STRING);
       return $login;
   }
 
-  public function passwordSanitize($password){
+  public static function passwordSanitize($password){
       $password = filter_var($password,FILTER_SANITIZE_STRING);
       return $password;
   }
 
-  public function mailSanitize($mail){
+  public static function mailSanitize($mail){
       $mail = filter_var($mail, FILTER_SANITIZE_EMAIL);
       return $mail;
   }
 
+  public static function stringSanitize($string){
+      $string = filter_var($string, FILTER_SANITIZE_STRING);
+      return $string;
+  }
 
-  //Sanitize des nombres (âge ?...)
-  //
+  public static function integerSanitize($int){
+      $int = filter_var($int,FILTER_SANITIZE_NUMBER_INT);
+      return $int;
+  }
 }

@@ -34,4 +34,5 @@ class User
     {
         return $this->nom . ' ' . $this->prenom . ' ' . $this->anneeDeN . ' ' . $this->mail;
     }
+
 }
