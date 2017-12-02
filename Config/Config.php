@@ -3,7 +3,7 @@
 namespace Config;
 
 //Project Directory
-$dir=__DIR__.'/../';
+$rep=__DIR__.'/../';
 
 //DataBase informations
 
@@ -14,5 +14,7 @@ $password='';
 //Views
 
 $View['error']='View/errorView.php';
-$View['vueAcceuil']='View/vueAcceuil.php';
-//$View['']
+$views['register']='views/register.php';
+$View['home']='View/home.php';
+$views['404']='views/404.php';
+

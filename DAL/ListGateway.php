@@ -2,18 +2,21 @@
 
 namespace DAL;
 
+use \Metier\Connection;
+use \Metier\TaskList;
+
 class ListGateway{
 
     private $con;
 
-    public function __construct(Connexion $con){
+    public function __construct(Connection $con){
         $this->con=$con;
     }
 
     private function getInstances(array $results){
         $instc = [];
-        foreach($results as $task)
-            $instc[] = new List($task['id_task'], $task['title'], $task['content'], $task['date']);
+        foreach($results as $list)
+            $instc[] = new TaskList($list['id_list'], $list['name']);
         return $instc;
     }
 
@@ -25,53 +28,44 @@ class ListGateway{
         return $this->con->getResults();
     }
 
-    public function getTask($id_task)
+    public function getList($id_list)
     {
-        $query = 'SELECT * FROM ttache WHERE id_tache=:id_task';
+        $query = 'SELECT * FROM tlist WHERE id_list=:id_list';
 
-        $this->con->executeQuery($query,':id_task' => array($id_task, PDO::PARAM_INT));
+        $this->con->executeQuery($query,':id_list' => array($id_list, \PDO::PARAM_INT));
         $results = $this->con->getResults();
         return $this->getInstances($results);
     }
 
-
-    public function insertTask($id_task, $title, $content, $date)
+    public function insertList($id_list, $name)
     {
-        $query='INSERT INTO ttask(id_tache, title, content, date) VALUES(:$id_task, :$title, :$content, :$date)';
+        $query='INSERT INTO tlist(id_list, name) VALUES(:id_list, :name)';
 
-        $this->con->executeQuery($con, array(
-            ':id_task' => array($id_task, PDO::PARAM_INT),
-            ':title' => array($title, PDO::PARAM_STR),
-            ':content' => array($content, PDO::PARAM_STR),
-            ':date' => array($date, PDO::PARAM_STR)
+        $this->con->executeQuery($query, array(
+            ':id_list' => array($id_list, \PDO::PARAM_INT),
+            ':name' => array($name, \PDO::PARAM_STR),
         ));
 
         return $this->con->lastInsertId();
     }
 
-    public function updateTask($id_task, $title, $content, $date)
+    public function updateList($id_list, $name)
     {
-        $query='UPDATE ttache SET id_tache=:id_task, title=:title, content=:content, date=:date)';
+        $query='UPDATE tlist SET id_list=:id_list, name=:name)';
 
-        $this->con->executeQuery($con, array(
-            ':id_task' => array($id_task, PDO::PARAM_INT),
-            ':title' => array($title, PDO::PARAM_STR),
-            ':content' => array($content, PDO::PARAM_STR),
-            ':date' => array($date, PDO::PARAM_STR)
+        $this->con->executeQuery($query, array(
+            ':id_list' => array($id_list, \PDO::PARAM_INT),
+            ':name' => array($name, \PDO::PARAM_STR),
         ));
     }
 
-    public function deleteUser($id_task){
+    public function deleteList($id_list){
 
-        $query='DELETE FROM ttache WHERE id_tache=:id_task';
+        $query='DELETE FROM tlist WHERE id_list=:id_list';
 
         return $this->con->executeQuery($query, array(
-            ':id_task' => array($id_task, PDO::PARAM_INT)
+            ':id_list' => array($id_list, \PDO::PARAM_INT)
         ));
 
     }
-
-
-
-
 }

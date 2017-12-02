@@ -2,7 +2,6 @@
 
 namespace Metier;
 
-
 class TaskList
 {
     private $id_list;

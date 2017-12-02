@@ -2,36 +2,49 @@
 
 namespace Controllers;
 
-public class FrontController{
+public class FrontController
+{
+
+    function __construct()
+    {
+        global $rep, $vues;
+
+        $actionUser = array("disconnect", "addList", "removeList"); //"privateList");
+        $actionVisitor = array("connect", "register", "consultList", "addTask", "deleteTask", "completTask");
 
 
-    function __construct() {
-        global $rep,$vues; // nécessaire pour utiliser variables globales
-        session_start();
+    }
+}
 
-        //on initialise un tableau d'erreur
-        $dViewError = array ();
+/*
+session_start();
 
-        try{
-            $action=$_REQUEST['action'];
+$dViewError = array ();
 
-            switch($action) {
+    //TEST SI PERSONNE = user
 
-                case NULL:
-                    $this->Reinit();
-                    break;
+    //TEST SI PERSONNE = admin
 
-                case "validationFormulaire":
-                    $this->ValidationFormulaire($dViewError);
-                    break;
+try{
+$action=$_REQUEST['action'];
 
-                default:
-                    $dErrorView[] =	"Erreur d'appel php";
-                    require ($rep.$vues['vuephp1']);
-                    break;
-            }
+switch($action) {
 
-        } catch (PDOException $e)
+case NULL:
+$this->Reinit();
+break;
+
+case "validationFormulaire":
+$this->ValidationFormulaire($dViewError);
+break;
+
+default:
+$dErrorView[] =	"Erreur d'appel php";
+require ($rep.$vues['vuephp1']);
+break;
+}
+
+} catch (PDOException $e)
         {
             //si erreur BD, pas le cas ici
             $dVueEreur[] =	"Erreur inattendue!!! ";
@@ -61,7 +74,7 @@ public class FrontController{
         global $rep,$vues;
 
 
-    //si exception, ca remonte !!!
+        //si exception, ca remonte !!!
         $login=$_POST['login']; // txtNom = nom du champ texte dans le formulaire
         $password=$_POST['password'];
         \config\Validation::matchToRegexp($login,$password,$dVueEreur);
@@ -76,4 +89,4 @@ public class FrontController{
         );
         require ($rep.$vues['vuephp1']);
     }
-}
+*/

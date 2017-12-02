@@ -1,10 +1,15 @@
 <?php
 
+namespace DAL;
+
+use Connection;
+use \Metier\Task;
+
 class TaskGateway{
 
     private $con;
 
-    public function __construct(Connexion $con){
+    public function __construct(Connection $con){
         $this->con=$con;
     }
 
@@ -37,7 +42,7 @@ class TaskGateway{
     {
         $query='INSERT INTO ttask(id_tache, title, content, date) VALUES(:$id_task, :$title, :$content, :$date)';
 
-        $this->con->executeQuery($con, array(
+        $this->con->executeQuery($query, array(
             ':id_task' => array($id_task, PDO::PARAM_INT),
             ':title' => array($title, PDO::PARAM_STR),
             ':content' => array($content, PDO::PARAM_STR),
@@ -51,7 +56,7 @@ class TaskGateway{
     {
         $query='UPDATE ttache SET id_tache=:id_task, title=:title, content=:content, date=:date)';
 
-        $this->con->executeQuery($con, array(
+        $this->con->executeQuery($query, array(
             ':id_task' => array($id_task, PDO::PARAM_INT),
             ':title' => array($title, PDO::PARAM_STR),
             ':content' => array($content, PDO::PARAM_STR),

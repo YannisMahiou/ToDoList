@@ -3,17 +3,14 @@
 //reçoit les appels à faire
 namespace Model;
 
+use Metier\Connection;
+
 class TaskModel
 {
 
     public function __construct()
     {
-
+        $dal = new TaskGateway(Connection $con);
     }
-
-    /*function get_data() :sring
-    {
-        return "Mon modèle ne fait rien";
-    }*/
 
 ?>

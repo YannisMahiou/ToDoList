@@ -1,7 +1,6 @@
 <?php
 
 namespace Metier;
-
 //This class aims to connect to a DB
 //No prints & no errors caught here
 class Connection extends \PDO
@@ -10,7 +9,7 @@ class Connection extends \PDO
 
     public function __construct($dsn, $login, $password){
         parent::__construct($dsn, $login, $password);
-        $this->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $this->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
     }
 
     /***@param string $query
@@ -27,7 +26,7 @@ class Connection extends \PDO
     }
 
     public function getResults(){
-        return $this->stmt->fetchAll(PDO::FETCH_OBJ);
+        return $this->stmt->fetchAll(\PDO::FETCH_OBJ);
     }
 
     public function lastInsertId(){

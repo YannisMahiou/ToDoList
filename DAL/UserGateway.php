@@ -26,7 +26,7 @@ class UserGateway{
 
     public function getUser($username, $password)
     {
-        $query = 'SELECT * FROM TUser WHERE Username=:username AND Password=:Password';
+        $query = 'SELECT * FROM tuser WHERE Username=:username AND Password=:Password';
 
         $this->con->executeQuery($query, array(
             ':Username' => array($username, PDO::PARAM_STR),
@@ -42,7 +42,7 @@ class UserGateway{
     {
         $query = 'INSERT INTO tuser VALUES(:Username,:Password)';
 
-        $this->con->executeQuery($con, array(
+        $this->con->executeQuery($query, array(
             ':Username' => array($username, PDO::PARAM_STR),
             ':Password' => array($password, PDO::PARAM_STR)
         ));
@@ -54,7 +54,7 @@ class UserGateway{
     {
         $query='UPDATE tuser SET Username=:Username, Password=:Password)';
 
-        $this->con->executeQuery($con, array(
+        $this->con->executeQuery($query, array(
             ':Username' => array($username, PDO::PARAM_STR),
             ':Password' => array($password, PDO::PARAM_STR)
         ));
