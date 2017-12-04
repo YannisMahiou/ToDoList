@@ -1,15 +1,32 @@
 <?php
 
 namespace Metier;
+
+
 //This class aims to connect to a DB
-//No prints & no errors caught here
+//No prints & no errors caught
+
+
 class Connection extends \PDO
 {
     private $stmt;
+    private static $_instance;
+
+    public static function getInstance(){
+
+        global $dsn, $password, $login;
+
+        if(is_null(self::$_instance)){
+            self::$_instance = new Connection($dsn, $login, $password);
+        }
+
+        return self::$_instance;
+    }
 
     public function __construct($dsn, $login, $password){
         parent::__construct($dsn, $login, $password);
-        $this->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+        $this->id = uniqid();
+        $this->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
     /***@param string $query
@@ -26,7 +43,7 @@ class Connection extends \PDO
     }
 
     public function getResults(){
-        return $this->stmt->fetchAll(\PDO::FETCH_OBJ);
+        return $this->stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
     public function lastInsertId(){

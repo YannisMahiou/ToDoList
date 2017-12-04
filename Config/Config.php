@@ -5,17 +5,22 @@ namespace Config;
 //Project Directory
 $rep=__DIR__.'/../';
 
-//DataBase informations
 
+//DataBase informations
 $dsn='mysql:host=localhost;dbname=app;charset=utf8';
 $login='root';
 $password='';
 
-//Views
 
+//Database connection  IUT
+//$dsn="mysql:host=hina;dbname=app";
+//$login="yamahiou";
+//$password="yamahiou";
+
+
+//Views
 $view['error']='View/errorView.php';
 $view['register']='views/register.php';
 $view['home']='View/home.php';
-$view['404']='views/404.php';
 
 

@@ -4,9 +4,12 @@ namespace Controllers;
 
 use Model\UserModel;
 
-public class UserController
+class UserController
 {
 
+    //toujours tester si $user == null --> personne connectée n'est pas admin et si null --> ErrorView
+    //cette variable pourra être utilisée par la vue pour faire una ffichage en fonction du role
+    //si $user != NULL -> alors on affiche boutton lien suppr par exemple..
     function __construct()
     {
         global $rep, $views;

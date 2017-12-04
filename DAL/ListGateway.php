@@ -13,9 +13,10 @@ class ListGateway{
         $this->con=$con;
     }
 
-    private function getInstances(array $results){
+    private function getInstances(array $results)
+    {
         $instc = [];
-        foreach($results as $list)
+        foreach ($results as $list)
             $instc[] = new TaskList($list['id_list'], $list['name']);
         return $instc;
     }

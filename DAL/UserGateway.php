@@ -1,5 +1,7 @@
 <?php
 
+namespace DAL;
+
 class UserGateway{
 
     private $con;
@@ -21,17 +23,16 @@ class UserGateway{
 
         $this->con->executeQuery($query);
 
-        return $this->con->getResults();
+        $results = $this->con->getResults();
+        return $this->getInstances($results);
     }
 
-    public function getUser($username, $password)
+    public function getUser($username)
     {
-        $query = 'SELECT * FROM tuser WHERE Username=:username AND Password=:Password';
+        $query = 'SELECT * FROM tuser WHERE Username=:username';
 
         $this->con->executeQuery($query, array(
-            ':Username' => array($username, PDO::PARAM_STR),
-            ':Password' => array($password, PDO::PARAM_STR)
-
+            ':Username' => array($username, PDO::PARAM_STR)
         ));
         $results = $this->con->getResults();
         return $this->getInstances($results);

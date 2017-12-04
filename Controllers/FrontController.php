@@ -4,7 +4,25 @@ namespace Controllers;
 
 use Model\UserModel;
 
-public class FrontController
+//récupère l'action
+//la teste/nettoye/valide
+//en fn de l'action : il appelle le bon controller (user // visitor // admin)
+//
+//Algo :
+//initialisation : lien avec le model, session, lib, autoloader, etc
+//1 : quel est le rôle de la personne connectée ? (user, admin, visitor) : lecture rôle dans la session !
+//2 : récupérer l'action en GET/POST
+//3 : $action existe ? sinon on va page erreur
+//      A-> non = $errorView
+//      B-> quel rôle faut-il pour cette action ?
+//      A-> rôle ok : appel du controler
+//      A-> role !OK : appel View['register'] || ErrorView
+
+
+//si temps : vérifier toutes les actions si possible etc
+//URL rewriting : pour se passer du frontController /usr1/action1/param1/param2
+
+class FrontController
 {
 
     function __construct()
@@ -13,37 +31,43 @@ public class FrontController
 
         $actionUser = array("disconnect", "addList", "removeList");
         $actionVisitor = array("connect", "register", "consultList", "addTask", "deleteTask", "completTask");
+        //$actionAdmin
 
         $user = new UserModel();
 
-        try{
 
-            if(!$user.isUser())
+
+        try {
+            if (!$user->isUser())
                 exit(1);
-            $action = $_GET('action');
-            foreach($actionUser as $act) {
-                if ($action == $act){
-                    if ($user == NULL){
+            $action = $_REQUEST('action');
+            foreach ($actionUser as $act) {
+                if ($action == $act) {
+                    if ($user == NULL) {
                         require($rep . $view['register']);
-                    else
+                    } else {
                         $user = new UserController();
                     }
                 }
-                else{
 
 
-                }
+                //c'est un user et que c'est uen action user)
+                //appel de UserController
+                //on valide l'action is au lieu de le faire dans le UserController
+            }
+        }catch(\Exception $e){
+             $dErrorView = "Error : " . $e;
+             require($rep . $view['error']);
 
             }
-
-
-
-
-
-
-
-
         }
+
+
+
+        //méthode conenction : vérifie en abse si l'user existe (login//mdp dans table tuser)
+        //méthode déconenction : détruit conenction
+        //is admin = lire dans session pour trouve rrôle de la personne connectée
+
 }
 
 /*
