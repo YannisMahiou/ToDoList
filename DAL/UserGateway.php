@@ -2,11 +2,13 @@
 
 namespace DAL;
 
+use Metier\Connection;
+
 class UserGateway{
 
     private $con;
 
-    public function __construct(Connexion $con){
+    public function __construct(Connection $con){
         $this->con=$con;
     }
 
@@ -18,7 +20,7 @@ class UserGateway{
         return $instc;
     }
 
-    public function getAll(){
+    public static function getAll(){
         $query = 'SELECT * FROM tuser';
 
         $this->con->executeQuery($query);
@@ -27,19 +29,20 @@ class UserGateway{
         return $this->getInstances($results);
     }
 
-    public function getUser($username)
+    public static function getUser($username, $password)
     {
-        $query = 'SELECT * FROM tuser WHERE Username=:username';
+        $query = 'SELECT * FROM tuser WHERE Username=:username' AND Password=:$password;
 
         $this->con->executeQuery($query, array(
-            ':Username' => array($username, PDO::PARAM_STR)
+            ':Username' => array($username, PDO::PARAM_STR),
+            ':Password' => (array($password, PDO::PARAM_STR))
         ));
         $results = $this->con->getResults();
         return $this->getInstances($results);
     }
 
 
-    public function insertUser($username, $password)
+    public static function insertUser($username, $password)
     {
         $query = 'INSERT INTO tuser VALUES(:Username,:Password)';
 
@@ -51,7 +54,7 @@ class UserGateway{
         return $this->con->lastInsertId();
     }
 
-    public function updateUser($username, $password)
+    public static function updateUser($username, $password)
     {
         $query='UPDATE tuser SET Username=:Username, Password=:Password)';
 
@@ -61,7 +64,7 @@ class UserGateway{
         ));
     }
 
-    public function deleteUser($username){
+    public static function deleteUser($username){
 
         $query='DELETE FROM tuser WHERE Username=:Username';
 

@@ -4,17 +4,6 @@ namespace Metier;
 
 class Sanitize
 {
-  //Sanitize des strings
-  public static function loginSanitize($login){
-      $login = filter_var($login,FILTER_SANITIZE_STRING);
-      return $login;
-  }
-
-  public static function passwordSanitize($password){
-      $password = filter_var($password,FILTER_SANITIZE_STRING);
-      return $password;
-  }
-
   public static function mailSanitize($mail){
       $mail = filter_var($mail, FILTER_SANITIZE_EMAIL);
       return $mail;

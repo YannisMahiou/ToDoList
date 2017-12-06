@@ -21,52 +21,71 @@ class ListGateway{
         return $instc;
     }
 
-    public function getAll(){
-        $query = 'SELECT * FROM tlist';
+    public function getAll(int $page){
+        try{
+            $query = 'SELECT * FROM tlist LIMIT :Page, 10';
+            $this->con->executeQuery($query, array(
+                ':Page' => array($page, PDO::PARAM_INT)
+            ));
 
-        $this->con->executeQuery($query);
+            return $this->con->getResults();
+        }catch(\PDOException $e){
 
-        return $this->con->getResults();
+            $pdoErrors[] = $e->getMessage();
+        }
     }
 
-    public function getList($id_list)
+    public function getListById($id_list)
     {
-        $query = 'SELECT * FROM tlist WHERE id_list=:id_list';
+        try{
+            $query = 'SELECT * FROM tlist WHERE id_list=:id_list';
+            $this->con->executeQuery($query,':id_list' => array($id_list, \PDO::PARAM_INT));
+            $results = $this->con->getResults();
 
-        $this->con->executeQuery($query,':id_list' => array($id_list, \PDO::PARAM_INT));
-        $results = $this->con->getResults();
-        return $this->getInstances($results);
+            return $this->getInstances($results);
+        }catch(\PDOException $e){
+            $pdoErrors[] = $e->getMessage();
+        }
     }
 
     public function insertList($id_list, $name)
     {
-        $query='INSERT INTO tlist(id_list, name) VALUES(:id_list, :name)';
+        try {
+            $query = 'INSERT INTO tlist(id_list, name) VALUES(:id_list, :name)';
+            $this->con->executeQuery($query, array(
+                ':id_list' => array($id_list, \PDO::PARAM_INT),
+                ':name' => array($name, \PDO::PARAM_STR),
+            ));
 
-        $this->con->executeQuery($query, array(
-            ':id_list' => array($id_list, \PDO::PARAM_INT),
-            ':name' => array($name, \PDO::PARAM_STR),
-        ));
-
-        return $this->con->lastInsertId();
+            return $this->con->lastInsertId();
+        } catch (\PDOException $e) {
+            $pdoErrors[] = $e->getMessage();
+        }
     }
 
     public function updateList($id_list, $name)
     {
-        $query='UPDATE tlist SET id_list=:id_list, name=:name)';
 
-        $this->con->executeQuery($query, array(
-            ':id_list' => array($id_list, \PDO::PARAM_INT),
-            ':name' => array($name, \PDO::PARAM_STR),
-        ));
+        try {
+            $query = 'UPDATE tlist SET id_list=:id_list, name=:name)';
+            $this->con->executeQuery($query, array(
+                ':id_list' => array($id_list, \PDO::PARAM_INT),
+                ':name' => array($name, \PDO::PARAM_STR),
+            ));
+        } catch (\PDOException $e) {
+            $pdoErrors[] = $e->getMessage();
+        }
     }
 
     public function deleteList($id_list){
 
-        $query='DELETE FROM tlist WHERE id_list=:id_list';
-
-        return $this->con->executeQuery($query, array(
-            ':id_list' => array($id_list, \PDO::PARAM_INT)
-        ));
+        try {
+            $query = 'DELETE FROM tlist WHERE id_list=:id_list';
+            return $this->con->executeQuery($query, array(
+                ':id_list' => array($id_list, \PDO::PARAM_INT)));
+        } catch (\PDOException $e) {
+            $pdoErrors[] = $e->getMessage();
+        }
 
     }
 }

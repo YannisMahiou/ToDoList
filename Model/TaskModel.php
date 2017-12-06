@@ -8,9 +8,4 @@ use Metier\Connection;
 class TaskModel
 {
 
-    public function __construct()
-    {
-        $dal = new TaskGateway(Connection $con);
-    }
-
 ?>

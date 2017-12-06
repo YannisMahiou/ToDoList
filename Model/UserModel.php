@@ -11,56 +11,47 @@ class UserModel{
     //chiffrer le mot de passe en base !
 
 
-    public function __construct()
-    {
-
-    }
 
 
-    public function connection($login, $password){
+    public static function connection($login, $password){
+        global $rep, $view;
+
         $login = Sanitize::stringSanitize($login);
         $password = Sanitize::stringSanitize($password);
 
-        
-        //appel DAL pour vérif login et mdp dans la BD
-        //ajout dans la sessiosn
-        //$SESSION['login']='admin' && $SESSION['login']=$login ..
-        //chiffrer la session
+        if(UserGateway::getUser($login) == NULL){
+            require $rep . $view['register'];
+        }
+        $_SESSION['role']='user';
+        $_SESSION['login']=$login;
+
+        //voir partie securite --> chiffrer la session
     }
 
-    public function deconnection(){
+    public static function deconnection(){
         session_unset();
         session_destroy();
         $_SESSION = array();
     }
 
-    public function isUser()
+    public static function isUser()
     {
-        if(isset($_SESSION['login']) && isset($_SESSION['role'] && isset($_SESSION['anneeDeN']))){
+        if(isset($_SESSION['login']) && isset($_SESSION['password'])){
             $login = Sanitize::stringSanitize($_SESSION['login']);
-            $role = Sanitize::stringSanitize($_SESSION['role']);
-            $anneDeN = Sanitize::integerSanitize($_SESSION['anneeDeN']);
-            return new \Metier\User($login, $role, $anneDeN);
+            $password = Sanitize::stringSanitize($_SESSION['password']);
+            return (new UserGateway())->getUser($login, $password);
         }
         else return null;
     }
 
-    public function getAllUsers(){
-        $dal = new UserGateway(new Connection($dsn, $login, $password));
-        $all = $dal->getAll();
-        return $all;
+    public static function getAllUsers(){
+        return UserGateway::getAll();
     }
 
-    public function getUser($log){
-        $login = Sanitize::stringSanitize($log);
-        $dal = new UserGateway(new Connection($dsn, $login, $password));
-        $usr = $dal->getUser($log);
-        return $usr;
+    public static function getUser($login){
+        $login = Sanitize::stringSanitize($login);
+        return UserGateway::getUser($login);
     }
-
-    public function
-
-
 
 }
 
