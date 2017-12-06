@@ -11,8 +11,6 @@ class UserModel{
     //chiffrer le mot de passe en base !
 
 
-
-
     public static function connection($login, $password){
         global $rep, $view;
 
@@ -20,7 +18,7 @@ class UserModel{
         $password = Sanitize::stringSanitize($password);
 
         if(UserGateway::getUser($login) == NULL){
-            require $rep . $view['register'];
+            require($rep . $view['register']);
         }
         $_SESSION['role']='user';
         $_SESSION['login']=$login;
@@ -39,7 +37,7 @@ class UserModel{
         if(isset($_SESSION['login']) && isset($_SESSION['password'])){
             $login = Sanitize::stringSanitize($_SESSION['login']);
             $password = Sanitize::stringSanitize($_SESSION['password']);
-            return (new UserGateway())->getUser($login, $password);
+            return (new UserGateway(new Connection()))->getUser($login, $password);
         }
         else return null;
     }

@@ -4,7 +4,6 @@ namespace Controllers;
 
 use Metier\Validation;
 use Metier\Sanitize;
-use Model\UserModel;
 
 /*1 : quel est le rôle de la personne connectée ? (user, admin, visitor) : lecture rôle dans la session !
  *2 : récupérer l'action en $_REQUEST
@@ -12,7 +11,7 @@ use Model\UserModel;
  *      A-> non = $errorView
  *      B-> quel rôle faut-il pour cette action ?
  *      C-> rôle ok : appel du controler
- *      D-> role !OK : appel View['register'] || ErrorView
+ *      D-> role !OK : appel Viewss['register'] || ErrorView
  */
 
 
@@ -27,16 +26,18 @@ class FrontController
         global $rep, $view;
         $dErrorView = array();
 
-        $actionUser = array('disconnect', 'addList', 'removeList');
+        $actionUser = array('signout', 'addList', 'removeList');
 
         // A FAIRE
         //   -->initialisation : session, lib, autoloader, etc
 
-        $user = new UserModel::isUser();
+        $user = \Model\UserModel::isUser();
         //Sanitize the action caught
-        $action = Sanitize::stringSanitize($_REQUEST['action']);
+
 
         try {
+
+            $action = Sanitize::stringSanitize($_REQUEST['action']);
 
             //If it's an user
             if ($user) {

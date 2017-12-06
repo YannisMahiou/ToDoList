@@ -25,5 +25,10 @@ $view['home']='Views/home.php';
 $view['signin']='Views/signin.php';
 $view['404']='Views/404.php';
 
+//Templates
+$template['head']='Views/templates/head.php';
+$template['header']='Views/templates/header.php';
+$template['footer']='Views/templates/footer.php';
+
 
 

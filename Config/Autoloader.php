@@ -2,10 +2,6 @@
 
 namespace Config;
 
-/**
- * App Autoloader
- * Allow to autoload php classes
- */
 class Autoloader
 {
     private static $_instance = null;
@@ -33,6 +29,7 @@ class Autoloader
         global $rep;
         $filename = $class.'.php';
         $dir =array('Model/','./','Config/','Controllers/', 'DAL/');
+
         foreach ($dir as $d){
             $file=$rep.$d.$filename;
             if (file_exists($file))

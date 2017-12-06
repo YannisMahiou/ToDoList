@@ -11,17 +11,16 @@ class VisitorController{
     {
         global $rep, $view;
         $dErrorView = array();
-        $actionUser = array('lists','home','connect', 'disconnect');
+        $actionVisitor = array('signin');
 
-        $user = new UserModel();
 
         //session_start();
 
         try {
 
             $action = $_REQUEST['action'];
-            if(!in_array($action, $actionUser))
-                $dErrorView[] = "This action isn't a User action ";
+            if(!in_array($action, $actionVisitor))
+                $dErrorView[] = "This action isn't a Visitor action ";
 
             switch ($action) {
 
@@ -66,7 +65,6 @@ class VisitorController{
     public function deconnection(){
 
     }
-*/
 }
 
 
