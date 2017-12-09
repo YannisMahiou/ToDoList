@@ -3,6 +3,7 @@
 namespace Controllers;
 
 use Metier\Sanitize;
+use Model\ListModel;
 use Model\UserModel;
 use Metier\Validation;
 
@@ -14,13 +15,10 @@ class UserController
     //si $user != NULL -> alors on affiche boutton lien suppr par exemple..
     function __construct($action)
     {
-        global $rep, $view;
+        global $rep, $view, $template;
         $errors = array();
-        $actionUser = array('lists','home','connect', 'disconnect');
+        $actionUser = array('signout', 'addList', 'removeList', 'signin');
 
-        $user = new UserModel();
-
-        //session_start();
 
         try {
 
@@ -36,22 +34,16 @@ class UserController
                     $this->displayAllLists();
                     break;
 
-                case 'signin' :
-                    $this->connection();
-                    break;
-
                 case 'signout' :
-                    $this->deconnection();
+                    $this->disconnect();
                     break;
 
-                case 'register' :
-                    $result = $user->getAllUsers();
-                    break;
+                case 'addList' :
+                    $this->addList();
 
                 default :
-                    $errors[] = "BAD REQUEST";
-                    require $rep.$view['error'];
-                    break;
+                    $errors[] = 'BAD REQUEST';
+                    require($rep.$view['error']);
             }
         }
         catch(\PDOException $e){
@@ -65,28 +57,23 @@ class UserController
         exit(0);
     }
 
-    public function connection(){
-        global $rep, $view;
-        require $rep.$view['signin'];
+
+    private function disconnect(){
+        global $rep, $view, $template;
+        UserModel::disconnect();
+        $this->displayAllLists();
     }
 
-
-    public function deconnection(){
-        global $rep, $view;
-
+    private function displayAllLists(){
+        global $rep, $view,$template;
+        $allLists = ListModel::getAllLists();
+        require($rep.$view['home']);
     }
 
-    public function displayAllLists(){
-        global $rep, $view;
-        $page = Sanitize::integerSanitize($_GET['page']);
-        $all = UserModel::
+    private function addList()
+    {
     }
+
 }
-
-
-
-//méthode conenction : vérifie en abse si l'user existe (login//mdp dans table tuser)
-//méthode déconenction : détruit conenction
-//is admin = lire dans session pour trouve rrôle de la personne connectée
 
 

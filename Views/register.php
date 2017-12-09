@@ -18,7 +18,7 @@
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="home.php">ToDoList</a>
+            <a class="navbar-brand" href="index.php">ToDoList</a>
         </div>
     </div>
 </nav>
@@ -27,12 +27,6 @@
         <h1>Register</h1>
         <form name="frmRegistration" method="post" action="">
         <table border="0" width="500" align="center" class="demo-table">
-            <?php if(!empty($success_message)) { ?>
-                <div class="success-message"><?php if(isset($success_message)) echo $success_message; ?></div>
-            <?php } ?>
-            <?php if(!empty($error_message)) { ?>
-                <div class="error-message"><?php if(isset($error_message)) echo $error_message; ?></div>
-            <?php } ?>
             <tr>
                 <td>User Name</td>
                 <td><input type="text" class="demoInputBox" name="userName" value="<?php if(isset($_POST['userName'])) echo $_POST['userName']; ?>"></td>

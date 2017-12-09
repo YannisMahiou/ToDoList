@@ -3,78 +3,54 @@
 namespace DAL;
 
 use Metier\Connection;
+use Metier\User;
+use \PDO;
 
 class UserGateway{
 
     private $con;
 
-    public function __construct(Connection $con){
-        $this->con=$con;
+    public function __construct(){
+        $this->con= new Connection();
     }
 
-    private function getInstances(array $results){
-        $instc = [];
-        foreach($results as $user){
-            $instc[] = new User($user['Username'], $user['Password']);
-        }
-        return $instc;
-    }
-
-    public static function getAll(){
-        $query = 'SELECT * FROM tuser';
-
-        $this->con->executeQuery($query);
-
-        $results = $this->con->getResults();
-        return $this->getInstances($results);
-    }
-
-    public static function getUser($username, $password)
+    public function getUser($username, $password)
     {
-        $query = 'SELECT * FROM tuser WHERE Username=:username' AND Password=:$password;
+        $query = 'SELECT * FROM tuser WHERE username=:username AND password=:$password';
 
         $this->con->executeQuery($query, array(
             ':Username' => array($username, PDO::PARAM_STR),
             ':Password' => (array($password, PDO::PARAM_STR))
         ));
-        $results = $this->con->getResults();
-        return $this->getInstances($results);
+        $user = $this->con->getFirst();
+        return $user= new User($username, $password);
     }
 
 
-    public static function insertUser($username, $password)
+    public function insertUser($username, $password)
     {
-        $query = 'INSERT INTO tuser VALUES(:Username,:Password)';
-
+        $query='INSERT INTO tuser VALUES(:username, :password)';
         $this->con->executeQuery($query, array(
-            ':Username' => array($username, PDO::PARAM_STR),
-            ':Password' => array($password, PDO::PARAM_STR)
+            ':username' => array($username, PDO::PARAM_STR),
+            ':password' => array($password, PDO::PARAM_STR)
         ));
-
         return $this->con->lastInsertId();
     }
 
-    public static function updateUser($username, $password)
+    public  function updateUser($username, $password)
     {
-        $query='UPDATE tuser SET Username=:Username, Password=:Password)';
-
-        $this->con->executeQuery($query, array(
-            ':Username' => array($username, PDO::PARAM_STR),
-            ':Password' => array($password, PDO::PARAM_STR)
-        ));
-    }
-
-    public static function deleteUser($username){
-
-        $query='DELETE FROM tuser WHERE Username=:Username';
-
+        $query= 'UPDATE tuser SET username=:username, password=:password';
         return $this->con->executeQuery($query, array(
-           ':Username' => array($username, PDO::PARAM_STR)
+            ':username' => array($username, PDO::PARAM_STR),
+            ':password' => array($password, PDO::PARAM_STR)
         ));
-
     }
 
+    public  function deleteUser($username){
 
-
-
+        $query= 'DELETE FROM tuser WHERE username=:username';
+        return $this->con->executeQuery($query, array(
+            ':username' => array($username, PDO::PARAM_STR)
+        ));
+    }
 }

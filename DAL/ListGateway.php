@@ -4,13 +4,14 @@ namespace DAL;
 
 use \Metier\Connection;
 use \Metier\TaskList;
+use \PDO;
 
 class ListGateway{
 
     private $con;
 
-    public function __construct(Connection $con){
-        $this->con=$con;
+    public function __construct(){
+        $this->con= new Connection();
     }
 
     private function getInstances(array $results)
@@ -21,12 +22,10 @@ class ListGateway{
         return $instc;
     }
 
-    public function getAll(int $page){
+    public function getAll(){
         try{
-            $query = 'SELECT * FROM tlist LIMIT :Page, 10';
-            $this->con->executeQuery($query, array(
-                ':Page' => array($page, PDO::PARAM_INT)
-            ));
+            $query = 'SELECT * FROM tlist';
+            $this->con->executeQuery($query);
 
             return $this->con->getResults();
         }catch(\PDOException $e){
@@ -35,11 +34,12 @@ class ListGateway{
         }
     }
 
-    public function getListById($id_list)
+    public function getListByName($name)
     {
         try{
-            $query = 'SELECT * FROM tlist WHERE id_list=:id_list';
-            $this->con->executeQuery($query,':id_list' => array($id_list, \PDO::PARAM_INT));
+            $query = 'SELECT * FROM tlist WHERE name=:name';
+            $this->con->executeQuery($query,
+                array(':name' => array($name, PDO::PARAM_STR)));
             $results = $this->con->getResults();
 
             return $this->getInstances($results);
@@ -53,7 +53,7 @@ class ListGateway{
         try {
             $query = 'INSERT INTO tlist(id_list, name) VALUES(:id_list, :name)';
             $this->con->executeQuery($query, array(
-                ':id_list' => array($id_list, \PDO::PARAM_INT),
+                ':id_list' => array($id_list, PDO::PARAM_INT),
                 ':name' => array($name, \PDO::PARAM_STR),
             ));
 
@@ -69,8 +69,8 @@ class ListGateway{
         try {
             $query = 'UPDATE tlist SET id_list=:id_list, name=:name)';
             $this->con->executeQuery($query, array(
-                ':id_list' => array($id_list, \PDO::PARAM_INT),
-                ':name' => array($name, \PDO::PARAM_STR),
+                ':id_list' => array($id_list, PDO::PARAM_INT),
+                ':name' => array($name, PDO::PARAM_STR),
             ));
         } catch (\PDOException $e) {
             $pdoErrors[] = $e->getMessage();
@@ -82,7 +82,7 @@ class ListGateway{
         try {
             $query = 'DELETE FROM tlist WHERE id_list=:id_list';
             return $this->con->executeQuery($query, array(
-                ':id_list' => array($id_list, \PDO::PARAM_INT)));
+                ':id_list' => array($id_list, PDO::PARAM_INT)));
         } catch (\PDOException $e) {
             $pdoErrors[] = $e->getMessage();
         }

@@ -4,35 +4,24 @@ namespace Metier;
 
 class User
 {
-    private $nom;
-    private $prenom;
-    private $anneeDeN;
-    private $mail;
+    private $username;
+    private $password;
 
-    public function __construct($nom, $prenom, $anneDeN, $mail)
+    public function __construct($username, $password)
     {
-        $this->nom = $nom;
-        $this->prenom = $prenom;
-        $this->anneeDeN = $anneDeN;
-        $this->mail = $mail;
+        $this->username = $username;
+        $this->password = $password;
 
     }
 
-    public function getNom(){
-        return $this->nom;
-    }
-
-    public function getPrenom(){
-        return $this->prenom;
-    }
-
-    public function getMail(){
-        return $this->mail;
-    }
-
-    public function __toString()
+    public function getUsername()
     {
-        return $this->nom . ' ' . $this->prenom . ' ' . $this->anneeDeN . ' ' . $this->mail;
+        return $this->username;
+    }
+
+    public function getPassword()
+    {
+        return $this->password;
     }
 
 }

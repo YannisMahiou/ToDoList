@@ -2,54 +2,47 @@
 
 namespace Model;
 
-use Metier\Connection;
 use Metier\Sanitize;
 use DAL\UserGateway;
+use Metier\User;
 
 class UserModel{
 
-    //chiffrer le mot de passe en base !
 
-
-    public static function connection($login, $password){
-        global $rep, $view;
-
+     static function connection($login, $password){
         $login = Sanitize::stringSanitize($login);
         $password = Sanitize::stringSanitize($password);
 
-        if(UserGateway::getUser($login) == NULL){
-            require($rep . $view['register']);
-        }
-        $_SESSION['role']='user';
-        $_SESSION['login']=$login;
+        $user = (new UserGateway())->getUser($login, hash("sha512",$password));
+        if($user == null)
+            return null;
 
-        //voir partie securite --> chiffrer la session
-    }
+        session_start();
 
-    public static function deconnection(){
+        $_SESSION['username']=$user->getUsername();
+        $_SESSION['password']=$user->getPassword();
+        $_SESSION['sessionID']=password_hash(session_id(), PASSWORD_DEFAULT);
+     }
+
+     static function disconnect(){
         session_unset();
         session_destroy();
         $_SESSION = array();
-    }
+     }
 
-    public static function isUser()
-    {
+     static function isUser(){
         if(isset($_SESSION['login']) && isset($_SESSION['password'])){
             $login = Sanitize::stringSanitize($_SESSION['login']);
             $password = Sanitize::stringSanitize($_SESSION['password']);
-            return (new UserGateway(new Connection()))->getUser($login, $password);
+            return (new User($login, $password));
         }
-        else return null;
-    }
+        return null;
+     }
 
-    public static function getAllUsers(){
-        return UserGateway::getAll();
-    }
-
-    public static function getUser($login){
+     static function getUser($login, $password){
         $login = Sanitize::stringSanitize($login);
-        return UserGateway::getUser($login);
-    }
+        return (new UserGateway())->getUser($login, $password);
+     }
 
 }
 

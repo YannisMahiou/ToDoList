@@ -7,5 +7,4 @@ use Metier\Connection;
 
 class TaskModel
 {
-
-?>
+}

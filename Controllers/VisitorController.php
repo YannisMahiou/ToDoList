@@ -2,6 +2,10 @@
 
 namespace controllers;
 
+use Metier\Sanitize;
+use Model\UserModel;
+use Model\ListModel;
+
 class VisitorController{
 
     //toujours tester si $user == null --> personne connectée n'est pas admin et si null --> ErrorView
@@ -9,36 +13,37 @@ class VisitorController{
     //si $user != NULL -> alors on affiche boutton lien suppr par exemple..
     function __construct($action)
     {
-        global $rep, $view;
+        global $rep, $view, $template;
         $dErrorView = array();
-        $actionVisitor = array('signin');
-
-
-        //session_start();
+        $actionVisitor = array('signin', 'addList','removeList', 'register');
 
         try {
 
-            $action = $_REQUEST['action'];
+            $action=Sanitize::stringSanitize($action);
+
             if(!in_array($action, $actionVisitor))
-                $dErrorView[] = "This action isn't a Visitor action ";
+                $dErrorView[] = "Unknown action";
 
             switch ($action) {
 
                 case NULL :
-                    require $rep.$view['home'];
+                    $this->displayAllLists();
                     break;
 
-                case 'connect' :
+                case 'signin' :
                     $this->connection();
                     break;
 
-                case 'disconnect' :
-                    $this->deconnection();
+                case 'register' :
+                    $this->register();
                     break;
 
-                case 'lists' :
-                    $result = $user->getAllUsers();
-                    require $rep.$view['home'];
+                case 'addlist' :
+                    $this->addList();
+                    break;
+
+                case 'removelist' :
+                    $this->removeList();
                     break;
 
                 default :
@@ -58,13 +63,38 @@ class VisitorController{
         exit(0);
     }
 
-    public function connection(){
+    private function connection(){
+        global $rep, $view, $template;
+        require $rep.$view['signin'];
+    }
+
+    private function register(){
+        global $rep,$view,$template;
+        if(isset($_POST['inputUsername']) && isset($_POST['inputPassword'])){
+            $user=UserModel::connection($_POST['inputUsername'], $_POST['inputPassword']);
+            if($user == null) {
+                require($rep.$view['register']);
+            }
+            else
+                header('Location: index.php');
+        }
+    }
+
+    private function displayAllLists(){
+        global $rep, $view,$template;
+        $allLists = ListModel::getAllLists();
+        require($rep.$view['home']);
+    }
+
+    public function addList(){
 
     }
 
-    public function deconnection(){
+    public function removeList(){
 
     }
+
+
 }
 
 

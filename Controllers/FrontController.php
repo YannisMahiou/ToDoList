@@ -23,19 +23,16 @@ class FrontController
 
     function __construct()
     {
-        global $rep, $view;
-        $dErrorView = array();
+        global $rep, $view, $template;
+        $errors = array();
 
-        $actionUser = array('signout', 'addList', 'removeList');
-
-        // A FAIRE
-        //   -->initialisation : session, lib, autoloader, etc
-
-        $user = \Model\UserModel::isUser();
-        //Sanitize the action caught
-
+        $actionUser = array('signout', 'addList', 'removeList', 'createList');
 
         try {
+
+            $user = \Model\UserModel::isUser();
+            //Sanitize the action caught
+
 
             $action = Sanitize::stringSanitize($_REQUEST['action']);
 
@@ -43,27 +40,26 @@ class FrontController
             if ($user) {
 
                 //If the action is valid
-                if (Validation::isValidAction($action, $dErrorView)) {
+                if (Validation::isValidAction($action, $errors)) {
 
                     //And if the action belongs to the list of User's actions
                     if (in_array($action, $actionUser)) {
 
                         //New UserController with the sanitized and valided $action
                         new UserController($action);
-                    } else {
-                        throw new \Exception("BAD REQUEST");
                     }
+
                 }
             }
             else{
 
-                // Case Default : it's a visitor
+                // Call the visitorCOntroller with the action
                 new VisitorController($action);
             }
         }catch (\Exception $e) {
 
-            $dErrorView = "Error : " . $e;
-            require($rep . $view['error']);
+            $errors = "Error : " . $e;
+            require($rep.$view['error']);
 
     }
   }
