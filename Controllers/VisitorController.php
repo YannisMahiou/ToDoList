@@ -5,6 +5,7 @@ namespace controllers;
 use Metier\Sanitize;
 use Model\UserModel;
 use Model\ListModel;
+use Metier\Validation;
 
 class VisitorController{
 
@@ -14,15 +15,15 @@ class VisitorController{
     function __construct($action)
     {
         global $rep, $view, $template;
-        $dErrorView = array();
-        $actionVisitor = array('signin', 'addList','removeList', 'register');
+        $errors = array();
+        $actionVisitor = array('login','signin', 'addList','removeList', 'register', 'addBase');
 
         try {
 
             $action=Sanitize::stringSanitize($action);
 
             if(!in_array($action, $actionVisitor))
-                $dErrorView[] = "Unknown action";
+                $errors[] = "Unknown action";
 
             switch ($action) {
 
@@ -46,18 +47,26 @@ class VisitorController{
                     $this->removeList();
                     break;
 
+                case 'login' :
+                    $this->login();
+                    break;
+
+                case 'addBase' :
+                  $this->addBase();
+                  break;
+
                 default :
-                    $dErrorView[] = "Bad request";
+                    $errors[] = "Bad request";
                     require $rep.$view['error'];
                     break;
             }
         }
         catch(\PDOException $e){
-            $dErrorView[] = "DataBase Error ! : " . $e;
+            $errors[] = "DataBase Error ! : " . $e;
             require($rep . $view['error']);
         }
         catch (\Exception $e2){
-            $dErrorView = "Error : " . $e2;
+            $errors = "Error : " . $e2;
             require($rep . $view['error']);
         }
         exit(0);
@@ -70,14 +79,7 @@ class VisitorController{
 
     private function register(){
         global $rep,$view,$template;
-        if(isset($_POST['inputUsername']) && isset($_POST['inputPassword'])){
-            $user=UserModel::connection($_POST['inputUsername'], $_POST['inputPassword']);
-            if($user == null) {
-                require($rep.$view['register']);
-            }
-            else
-                header('Location: index.php');
-        }
+        require($rep.$view['register']);
     }
 
     private function displayAllLists(){
@@ -94,9 +96,37 @@ class VisitorController{
 
     }
 
+    public function login() {
+        global $rep,$view,$template;
+        if (isset($_POST['inputUsername']) && isset($_POST['inputPassword'])){
+            if (UserModel::connection($_POST['inputUsername'], $_POST['inputPassword']) == false){
+              $wrong=true;
+              require($rep . $view['signin']);
+            }
+            else
+              header('Location: index.php');
+        }
+    }
+
+    public function addBase(){
+      global $rep, $view, $template;
+        if(!empty($_POST['userName']) && !empty($_POST['password'])){
+            //if the data are valid
+            //if(Validation::matchToRegexp($_POST['userName'], $_POST['password'], $errors)){
+
+              //if the user already exists
+              if(UserModel::connection($_POST['userName'], $_POST['password']) == true){
+                $exists = true;
+                require($rep . $view['register']);
+              }
+              else{
+                //insert the user in the database
+                $userId=UserModel::insertUser($_POST['userName'], $_POST['password']);
+                header('Location: index.php');
+            }
+          }
+        //}
+  }
+
 
 }
-
-
-
-

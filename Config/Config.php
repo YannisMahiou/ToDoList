@@ -29,6 +29,4 @@ $view['404']='Views/404.php';
 $template['head']='Views/templates/head.php';
 $template['header']='Views/templates/header.php';
 $template['footer']='Views/templates/footer.php';
-
-
-
+$template['scripts']='Views/templates/scripts.php';

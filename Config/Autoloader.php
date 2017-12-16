@@ -24,7 +24,6 @@ class Autoloader
         }
     }
 
-
     private static function _autoload($class){
         global $rep;
         $filename = $class.'.php';
@@ -37,7 +36,4 @@ class Autoloader
         }
 
     }
-
-
-
 }

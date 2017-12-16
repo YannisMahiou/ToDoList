@@ -32,7 +32,8 @@ class TaskGateway{
     {
         $query = 'SELECT * FROM ttache WHERE id_tache=:id_task';
 
-        $this->con->executeQuery($query,':id_task' => array($id_task, PDO::PARAM_INT));
+        $this->con->executeQuery($query,array(
+        ':id_task' => array($id_task, PDO::PARAM_INT)));
         $results = $this->con->getResults();
         return $this->getInstances($results);
     }

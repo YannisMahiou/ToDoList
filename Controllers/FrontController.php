@@ -18,6 +18,8 @@ use Metier\Sanitize;
 //si temps : vérifier toutes les actions si possible etc
 //URL rewriting : pour se passer du frontController /usr1/action1/param1/param2
 
+error_reporting(E_ALL & ~E_NOTICE);
+
 class FrontController
 {
 
@@ -31,9 +33,8 @@ class FrontController
         try {
 
             $user = \Model\UserModel::isUser();
+
             //Sanitize the action caught
-
-
             $action = Sanitize::stringSanitize($_REQUEST['action']);
 
             //If it's an user
@@ -53,7 +54,7 @@ class FrontController
             }
             else{
 
-                // Call the visitorCOntroller with the action
+                // Call the visitorController with the action
                 new VisitorController($action);
             }
         }catch (\Exception $e) {
@@ -64,4 +65,3 @@ class FrontController
     }
   }
 }
-

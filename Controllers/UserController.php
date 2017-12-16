@@ -7,6 +7,8 @@ use Model\ListModel;
 use Model\UserModel;
 use Metier\Validation;
 
+//classe de $_SESSION :
+
 class UserController
 {
 
@@ -75,5 +77,3 @@ class UserController
     }
 
 }
-
-

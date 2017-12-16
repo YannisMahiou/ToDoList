@@ -28,7 +28,6 @@ class Connection extends \PDO
         foreach ($parameters as $name => $value) {
             $this->stmt->bindValue($name, $value[0], $value[1]);
         }
-
         return $this->stmt->execute();
     }
 
