@@ -88,6 +88,11 @@ class VisitorController{
         require($rep.$view['home']);
     }
 
+    private function displayTasksByIdList($id_list){
+        return TaskModel::getTasksByIdList($id_list);
+
+    }
+
     public function addList(){
 
     }

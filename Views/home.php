@@ -14,6 +14,9 @@
                                 <div style="width:100%">
                                   <h2>'.$list['name'].'</h2>
                                 </div>';
+                        $tasksByIdList = displayTasksByIdList($list['id']);
+                        foreach ($tasksByIdList as $tasks)
+                            echo '<h3>'.$tasks['name'].'</h3>';
                     }
                     else
                         echo '<div class="row justify-content-center"><h1>NO RESULTS</h1></div>';

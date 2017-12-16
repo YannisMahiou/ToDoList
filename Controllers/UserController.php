@@ -72,6 +72,11 @@ class UserController
         require($rep.$view['home']);
     }
 
+    private function displayTasksByIdList($id_list){
+        return TaskModel::getTasksByIdList($id_list);
+
+    }
+
     private function addList()
     {
     }

@@ -38,6 +38,15 @@ class TaskGateway{
         return $this->getInstances($results);
     }
 
+    public  function getTasksByIdList($id_list)
+    {
+        $query = 'SELECT * FROM ttache WHERE id_list=:id_list';
+
+        $this->con->executeQuery($query,array(':id_list' => array($id_list, PDO::PARAM_INT)));
+        $results = $this->con->getResults();
+        return $this->getInstances($results);
+    }
+
 
     public function insertTask($id_task, $title, $content, $date)
     {

@@ -7,4 +7,7 @@ use Metier\Connection;
 
 class TaskModel
 {
+    static function getTasksByIdList($id_list)  {
+        return (new TaskGateway())->getTasksByIdList($id_list);
+    }
 }
